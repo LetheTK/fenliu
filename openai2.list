@@ -5,3 +5,6 @@ DOMAIN,cdn.auth0.com
 DOMAIN,openaiapi-site.azureedge.net
 DOMAIN,identrust.com
 DOMAIN-SUFFIX,sentry.io
+#claude
+DOMAIN-SUFFIX,claude.ai
+DOMAIN-SUFFIX,anthropic.com
