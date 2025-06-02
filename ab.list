@@ -1,4 +1,4 @@
 # Bili-bad-CDN
-- DOMAIN-SUFFIX,mcdn.bilivideo.com,REJECT
-- DOMAIN-SUFFIX,mcdn.bilivideo.cn,REJECT
-- DOMAIN-SUFFIX,szbdyd.com,REJECT
+DOMAIN-SUFFIX,mcdn.bilivideo.com,REJECT
+DOMAIN-SUFFIX,mcdn.bilivideo.cn,REJECT
+DOMAIN-SUFFIX,szbdyd.com,REJECT
