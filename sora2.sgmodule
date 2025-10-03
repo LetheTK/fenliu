@@ -1,0 +1,12 @@
+[Module]
+Name = SoraRemoveWatermark
+Description = Remove watermark from Sora videos hosted on videos.openai.com
+Author = ddgksf2013 (module by T)
+Version = 1.0.0
+
+[Script]
+# Trigger on Sora MP4 assets requests and run header script
+http-request ^https?:\/\/videos\.openai\.com\/vg-assets\/assets.*mp4 script-path=https://gist.githubusercontent.com/ddgksf2013/71fca841d34a7b440408276d03da3261/raw/SoraRemoveWatermark.js timeout=60
+
+[MITM]
+hostname = videos.openai.com
