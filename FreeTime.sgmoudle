@@ -1,32 +1,30 @@
-#!name=爱阅及新应用跳广告(修复版)
-#!desc=修复转圈问题，仅拦截获取广告接口,请开启MITM
+#!name=爱阅及新应用跳广告(终极版)
+#!desc=支持新旧应用，修复转圈问题，强制走穿山甲通道。
 #!openUrl = https://t.me/aiyueshuxiangy
 #!homepage = https://t.me/aiyueshuxiangy
 [Rule]
-# 1. 穿山甲核心域名放行 (必须放行，否则无法获取到最终的激励指令)
+# --- [核心规则] 强制穿山甲策略：封死其他所有支路 ---
+# 1. 屏蔽竞品平台 (防止它们抢占广告位放 50 秒长广告)
+DOMAIN-SUFFIX,gdt.qq.com,REJECT
+DOMAIN-SUFFIX,ugdtimg.com,REJECT
+DOMAIN-SUFFIX,kuaishou.com,REJECT
+DOMAIN,open.e.kuaishou.com,REJECT
+DOMAIN-SUFFIX,pinduoduo.com,REJECT
+DOMAIN,video-dsp.pddpic.com,REJECT
+DOMAIN-SUFFIX,duapps.com,REJECT
+DOMAIN-SUFFIX,cpro.baidu.com,REJECT
+DOMAIN-SUFFIX,beizi.biz,REJECT
+# 2. 放行穿山甲核心通信 (必须 DIRECT，否则无法同步奖励状态)
 DOMAIN-SUFFIX,pangolin-sdk-toutiao.com,DIRECT
 DOMAIN-SUFFIX,pangolin-sdk-toutiao1.com,DIRECT
-DOMAIN-SUFFIX,gdt.qq.com,DIRECT
-# 2. 屏蔽非穿山甲的竞品广告 (你可以根据需要选择拒绝哪些)
-DOMAIN,open.e.kuaishou.com,REJECT
-DOMAIN,video-dsp.pddpic.com,REJECT
-DOMAIN,images.pinduoduo.com,REJECT
-# 3. 屏蔽穿山甲及字节系的垃圾追踪日志 (防止因为跳广告被标记)
-DOMAIN,log-api.pangolin-sdk-toutiao.com,REJECT
-DOMAIN,log-api.pangolin-sdk-toutiao-b.com,REJECT
-DOMAIN,ether-pack.pangolin-sdk-toutiao.com,REJECT
-DOMAIN,mssdk-bu.bytedance.com,REJECT
-DOMAIN,ic.snssdk.com,REJECT
-DOMAIN,log.snssdk.com,REJECT
-DOMAIN,log-hl.snssdk.com,REJECT
-DOMAIN,tnc3-aliec2.snssdk.com,REJECT
-DOMAIN-SUFFIX,pglstatp-toutiao.com,REJECT
-DOMAIN-SUFFIX,ctobsnssdk.com,REJECT
+# 3. 屏蔽垃圾日志与追踪 (保护隐私，防止被广告商拉黑)
 DOMAIN-SUFFIX,volces.com,REJECT
+DOMAIN-SUFFIX,snssdk.com,REJECT
+DOMAIN,log-api.pangolin-sdk-toutiao.com,REJECT
+DOMAIN-SUFFIX,pglstatp-toutiao.com,REJECT
 DOMAIN,app-analytics-services.com,REJECT
 [Script]
-# [核心修复] 匹配模式去掉了 mediation，限定在 sdk/get_ads
+# [关键修复] pattern 仅匹配 get_ads 接口，避免在 mediation 阶段导致应用转圈
 爱阅跳广告直接领取 = type=http-response,script-path=https://gist.githubusercontent.com/Mattraks/cf41ab5f29271cbfc13922075c54523e/raw/kp.js,pattern=^https:\/\/api-access\.pangolin-sdk-toutiao[0-9]*\.com\/api\/ad\/union\/sdk\/get_ads.+,max-size=0,requires-body=true,timeout=10,script-update-interval=0,enable=true
 [MITM]
-# 这里的域名要和上面的 pattern 匹配
 hostname = %APPEND%, api-access.pangolin-sdk-toutiao.com, api-access.pangolin-sdk-toutiao*.com
