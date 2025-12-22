@@ -1,0 +1,37 @@
+#!name=爱阅及新应用跳广告
+#!desc=兼容新旧应用的跳广告领奖励,请开启MITM
+#!openUrl = https://t.me/aiyueshuxiangy
+#!homepage = https://t.me/aiyueshuxiangy
+[Rule]
+# 穿山甲 SDK 访问规则
+DOMAIN-SUFFIX,pangolin-sdk-toutiao.com,DIRECT
+DOMAIN-SUFFIX,pangolin-sdk-toutiao1.com,DIRECT
+# 屏蔽广告及追踪
+DOMAIN,open.e.kuaishou.com,REJECT
+DOMAIN,video-dsp.pddpic.com,REJECT
+DOMAIN,log-api.pangolin-sdk-toutiao.com,REJECT
+DOMAIN,log-api.pangolin-sdk-toutiao-b.com,REJECT
+DOMAIN,ether-pack.pangolin-sdk-toutiao.com,REJECT
+DOMAIN,mssdk-bu.bytedance.com,REJECT
+DOMAIN,images.pinduoduo.com,REJECT
+DOMAIN,ic.snssdk.com,REJECT
+DOMAIN,log.snssdk.com,REJECT
+DOMAIN,log-hl.snssdk.com,REJECT
+DOMAIN,tnc3-aliec2.snssdk.com,REJECT
+DOMAIN-SUFFIX,gdt.qq.com,REJECT
+DOMAIN-SUFFIX,app-measurement.com,REJECT
+DOMAIN-SUFFIX,umeng.com,REJECT
+DOMAIN-SUFFIX,umengcloud.com,REJECT
+DOMAIN-SUFFIX,pglstatp-toutiao.com,REJECT
+DOMAIN-SUFFIX,ctobsnssdk.com,REJECT
+DOMAIN-SUFFIX,ugdtimg.com,REJECT
+DOMAIN-SUFFIX,doubleclick.net,REJECT
+# 新增针对新应用的追踪屏蔽
+DOMAIN-SUFFIX,volces.com,REJECT
+DOMAIN,app-analytics-services.com,REJECT
+[Script]
+# 扩展匹配模式以包含多种域名和 mediation 接口
+爱阅跳广告直接领取 = type=http-response,script-path=https://gist.githubusercontent.com/Mattraks/cf41ab5f29271cbfc13922075c54523e/raw/kp.js,pattern=^https:\/\/(api-access|gromore)\.pangolin-sdk-toutiao[0-9]*\.com\/api\/ad\/union\/(sdk\/get_ads|mediation\/exchange).+,max-size=0,requires-body=true,timeout=10,script-update-interval=0,enable=true
+[MITM]
+# 扩展 MITM 主机名
+hostname = %APPEND%, api-access.pangolin-sdk-toutiao.com, api-access.pangolin-sdk-toutiao*.com, gromore.pangolin-sdk-toutiao.com
